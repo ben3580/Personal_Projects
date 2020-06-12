@@ -7,10 +7,11 @@
 class Tile {
 
   private int column, row, tileNum, x, y;
-  private boolean revealed, mine, flag; 
+  private boolean revealed, mine, flag, zeroRevealed; 
   // AI variables
-  private int coveredTiles, knownMines, totalInstance, mineThisInstance;
-  private double probability;
+  private int coveredTiles, knownMines, totalInstance, mineThisInstance, section;
+  private float probability;
+  private ArrayList<Tile> neighborCovered;
   
   /**
   *Constructor of objects of class Tile
@@ -22,14 +23,7 @@ class Tile {
     this.x = column * 40;
     this.y = row * 40 + 100;
     this.tileNum = 0;
-    this.revealed = false;
-    this.mine = false;
-    this.flag = false;
-    this.coveredTiles = 0;
-    this.knownMines = 0;
-    this.totalInstance = 0;
-    this.mineThisInstance = 0;
-    this.probability = 100;
+    neighborCovered = new ArrayList<Tile>();
   }
 
   // Display methods
@@ -57,9 +51,9 @@ class Tile {
   void displayProbability() {
     if (!this.flag && !this.revealed) {
       noStroke();
-      if (this.probability <= 0.001) {
+      if (this.probability == 0) {
         fill(0, 230, 0);
-      } else if (this.probability >= 99.999) {
+      } else if (this.probability == 100) {
         fill(255, 0, 0);
       } else {
         fill(230, 230, 0);
@@ -67,7 +61,7 @@ class Tile {
       rect(this.x + 5, this.y + 5, 30, 30);
       fill(0);
       textSize(12);
-      text((int)this.probability, this.x + 20, this.y + 20);
+      text(round(this.probability), this.x + 20, this.y + 20);
     }
   }
 
@@ -156,6 +150,10 @@ class Tile {
     return this.revealed;
   }
   
+  boolean getZeroRevealed(){
+    return this.zeroRevealed;
+  }
+  
   int getTileNum() {
     return this.tileNum;
   }
@@ -172,7 +170,7 @@ class Tile {
     return this.totalInstance;
   }
   
-  double getProbability() {
+  float getProbability() {
     return this.probability;
   }
   
@@ -191,6 +189,10 @@ class Tile {
 
   void reveal() {
     this.revealed = true;
+  }
+  
+  void setZeroRevealed(boolean newZeroRevealed){
+    this.zeroRevealed = newZeroRevealed;
   }
 
   void setTileNum(int newTileNum) {
@@ -213,7 +215,7 @@ class Tile {
     this.totalInstance++;
   }
 
-  void setProbability(double newProbability) {
+  void setProbability(float newProbability) {
     this.probability = newProbability;
   }
 
