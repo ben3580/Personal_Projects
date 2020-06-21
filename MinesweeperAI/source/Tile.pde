@@ -1,15 +1,9 @@
-// Parameter "column" is the column of the tile (starting at column 0)
-// Parameter "row" is the row of the tile (starting at row 0)
-// Parameter "tileNum" is the number of mines around the tile
-// Parameter "revealed" is whether the tile has been revealed by the player
-// Parameter "mine" is whether the tile contains a mine
-// Parameter "flag" is whether the tile is flagged
 class Tile {
 
   private int column, row, tileNum, x, y;
   private boolean revealed, mine, flag, zeroRevealed; 
   // AI variables
-  private int coveredTiles, knownMines, totalInstance, mineThisInstance, section;
+  private int totalInstance, mineThisInstance, section;
   private float probability;
   private ArrayList<Tile> neighborCovered;
   
@@ -19,7 +13,7 @@ class Tile {
   Tile (int c, int r) { 
     this.column = c;
     this.row = r;
-    // These variables scale the column and row, making it easier to draw things
+    // Variables x and y scale the column and row, making it easier to draw things
     this.x = column * 40;
     this.y = row * 40 + 100;
     this.tileNum = 0;
@@ -158,14 +152,6 @@ class Tile {
     return this.tileNum;
   }
   
-  int getCoveredTiles() {
-    return this.coveredTiles;
-  }
-  
-  int getKnownMines() {
-    return this.knownMines;
-  }
-  
   int getInstance() {
     return this.totalInstance;
   }
@@ -176,6 +162,10 @@ class Tile {
   
   int getMineInstance() {
     return this.mineThisInstance;
+  }
+  
+  int getSection(){
+    return this.section;
   }
   
   // Mutators
@@ -198,14 +188,6 @@ class Tile {
   void setTileNum(int newTileNum) {
     this.tileNum = newTileNum;
   }
-  
-  void setCoveredTiles(int newCoveredTiles) {
-    this.coveredTiles = newCoveredTiles;
-  }
-
-  void setKnownMines(int newKnowMines) {
-    this.knownMines = newKnowMines;
-  }
 
   void setInstance(int newInstance) {
     this.totalInstance = newInstance;
@@ -221,6 +203,10 @@ class Tile {
 
   void setMineInstance(int newMineThisInstance) {
     this.mineThisInstance = newMineThisInstance;
+  }
+  
+  void setSection(int newSection){
+    this.section = newSection;
   }
 
   String toString() {
